@@ -1,0 +1,13 @@
+# Mac
+.DS_Store
+# IntelliJ
+.idea/
+*.iml
+# Java binaries
+target/
+*.class
+# Secondary data
+*.dat
+*.ser
+
+
