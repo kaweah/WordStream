@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,7 @@ import javax.persistence.GenerationType;
  */
 
 @Entity
-public class Language {
+public class Concept {
 	
 	// Properties (member data)
 	
@@ -37,15 +38,16 @@ public class Language {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	protected Long id;
 
-	protected String name;
+	protected String description;
 	
-	/* The 'mappedBy = "language"' attribute specifies that
-	 * the 'private Language language;' field in Word owns the
+	/* The 'mappedBy = "concept"' attribute specifies that
+	 * the 'private Concept concept;' field in Word owns the
 	 * relationship (i.e. contains the foreign key for the query to
-	 * find all words for a language.)
+	 * find all words for a concept.)
 	 */
 	
-	@OneToMany(mappedBy = "language")
+	// @OneToMany(mappedBy = "concept")
+	@ManyToMany(mappedBy = "concepts")
 	private Set <Word> words;
 	
 	// Constructors
@@ -54,10 +56,10 @@ public class Language {
 	 * It is not called directly, so it is designated as protected.
 	 */
 	
-	protected Language() {}
+	protected Concept() {}
 	
-	public Language(String name) {
-		this.name = name;
+	public Concept(String description) {
+		this.description = description;
 	}
 	
 	// Accessors and mutators.
@@ -70,12 +72,12 @@ public class Language {
 		this.id = id;
 	}
 	
-	public String getName() {
-		return name;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	// Overridden Object functions.
@@ -83,7 +85,7 @@ public class Language {
 	@Override
 	public String toString() {
 		return String.format(
-	    		"Language[id=%d, name='%s']", id, name);
+	    		"Concept[id=%d, description='%s']", id, description);
 	}
 
 }

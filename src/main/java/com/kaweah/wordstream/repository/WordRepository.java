@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.kaweah.wordstream.model.Concept;
 import com.kaweah.wordstream.model.Language;
 import com.kaweah.wordstream.model.Word;
 
@@ -14,11 +15,18 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
 	Word findById(long id);
 	
-	/* Spring Data JPA implements a query according to a naming convention 
-	/* utilized by this findByLanguage API. By doing so it creates the one-to-many join.
-	 */
+	// Spring Data JPA implements a query according to a naming convention
+	
+	// utilized by this findByLanguage API. By doing so it creates the one-to-many join.
 	
 	List<Word> findByLanguage(Language language);
+	
+	/*
+	 * Search for a particular concept across a table of words that each contain
+	 * lists of concepts.
+	 */
+	
+	List<Word> findByConcepts(Concept concept);
 	
 /*
     List<Word> findByTextContaining(String text);

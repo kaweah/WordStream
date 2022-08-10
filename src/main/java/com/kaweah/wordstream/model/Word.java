@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -57,6 +59,19 @@ public class Word {
 	@JoinColumn(name="LANGUAGE_ID")
 	private Language language;
 	
+	// @ManyToOne(fetch=FetchType.LAZY)
+	// @JoinColumn(name="CONCEPT_ID")
+	// private Concept concept;
+
+	// Owner of many-to-many relationship with Concept class.
+	
+	@ManyToMany
+	@JoinTable(
+	  name = "word_concept", 
+	  joinColumns = @JoinColumn(name = "word_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "concept_id"))
+	Set<Concept> concepts;
+	
 	// Constructors
 	
 	/* The default constructor exists only for the sake of JPA.
@@ -65,9 +80,18 @@ public class Word {
 	
 	protected Word() {}
 
-	public Word(String text, Language language) {
+	public Word(String text, Language language, Concept concept) {
 		this.text = text;
 		this.language = language;
+		this.concepts = new HashSet <> ();
+		this.concepts.add(concept);
+	}
+
+	public Word(String text, Language language, Set<Concept> concepts) {
+		this.text = text;
+		this.language = language;
+		// this.concept = concept;
+		this.concepts = concepts;
 	}
 
 	// Accessors and mutators.
@@ -86,6 +110,14 @@ public class Word {
 	
 	public void setText(String _text) {
 		text = _text;
+	}
+	
+	public Language getLanguage() {
+		return language;
+	}
+	
+	public Set <Concept> getConcepts() {
+		return concepts;
 	}
 
 	// Overridden Object functions.

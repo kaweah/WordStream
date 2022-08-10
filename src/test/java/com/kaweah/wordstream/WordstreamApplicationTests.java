@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kaweah.wordstream.model.Concept;
 import com.kaweah.wordstream.model.Language;
 import com.kaweah.wordstream.model.Word;
+import com.kaweah.wordstream.repository.ConceptRepository;
 import com.kaweah.wordstream.repository.LanguageRepository;
 import com.kaweah.wordstream.repository.WordRepository;
 
@@ -25,23 +27,25 @@ class WordstreamApplicationTests {
     private WordRepository wordRepo;
 	@Autowired
     private LanguageRepository languageRepo;
+	@Autowired
+    private ConceptRepository conceptRepo;
     
 	@Test
 	void contextLoads() {
 	}
-
+/*
     @Test
     @Transactional
     public void testByTitle() {
         log.info("... testByTitle ...");
  
-        List <Word> wl = wordRepo.findByText("Chloe");
+        List <Word> wl = wordRepo.findByText("airyaman");
         for (Word w : wl) {
         	log.info("Found this: " + w.toString());
         }
         Assert.assertEquals("Bad ID: " + wl.get(0).getId(), (long)1, (long)wl.get(0).getId());
     }
-
+*/
 	@Test
 	@Transactional
 	public void testPersistWordInLanguage() {
@@ -51,7 +55,13 @@ class WordstreamApplicationTests {
     	
     	languageRepo.save(oldAvestan);
 
-		Word w = new Word("aurvaθana-", oldAvestan);
+		Concept airyaman = new Concept("friend, companion");
+		Concept adversary = new Concept("adversary");
+		
+		conceptRepo.save(airyaman);
+		conceptRepo.save(adversary);
+
+		Word w = new Word("aurvaθanąm", oldAvestan, adversary);
 		log.info(w.toString());
 		wordRepo.save(w);
 	}
